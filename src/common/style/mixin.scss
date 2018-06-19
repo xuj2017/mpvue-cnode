@@ -1,1 +1,10 @@
-$brand:#80bd01;
+$brand:#80bd01;//主题颜色
+$border-color:rgba(26,26,26,.1);//边框颜色
+$grey:#e3e3e3;
+
+//文字溢出
+@mixin text-overflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
