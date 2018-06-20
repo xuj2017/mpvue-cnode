@@ -17,6 +17,7 @@ export default {
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'vNode',
       navigationBarTextStyle: 'black'
+      // enablePullDownRefresh: true
     },
     tabBar:{
       color:'#7a7e83',

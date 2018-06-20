@@ -3,10 +3,9 @@ import App from './index'
 
 const app = new Vue(App)
 app.$mount()
+
 export default {
-    config: {
-        window:{
-            // "enablePullDownRefresh": true
-        }
-    }
+  config: {
+    navigationBarTitleText: '文章详情'
   }
+}

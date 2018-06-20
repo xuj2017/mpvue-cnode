@@ -1,22 +1,19 @@
 <template>
     <div class="container">
         <scroll-view class="swiper-tab" scroll-x="true">
-            <view :style="menuStyle" v-for="(item,index) in navList" :key="index" :class="{'active':currentIndex ===index}"  class="swiper-tab-item">{{item.title}}</view>
+            <view :style="'width:'+menuWidth+'px'" v-for="(item,index) in navList" :key="index"  @tap="select(index)" :class="{'active':currentIndex ===index}"  class="swiper-tab-item">{{item.title}}</view>
         </scroll-view>
-        <swiper class="swiper-box" duration="300" :style="'height:'+contentHeight">
-            <swiper-item >
-                <list-v :list="list"></list-v>
+        <swiper :current="currentIndex" class="swiper-box" duration="300" :style="'height:'+contentHeight" @change="swiperChange">
+            <swiper-item v-for="(item,index) in navList" :key="index">
+                <list-v :list="list" v-if="index === currentIndex" @refresh="refresh" @loadMore="loadMore" :hideHeader="hideHeader" :type="item" @goTo="goTo"></list-v>
             </swiper-item>
         </swiper>
     </div>
 </template>
 
 <script>
-import {navList,formatTime,getTimeInfo} from '@/common/js/common';
+import {navList} from '@/common/js/common';
 import List from '@/components/list.vue';
-import {request} from '@/common/js/request.js';
-
-const pageNumber = 20;
 
 export default {
     data(){
@@ -24,10 +21,8 @@ export default {
             winWidth:null,
             winHeight:null,
             navList:navList,
-            menuStyle:null,
+            menuWidth:null,
             currentIndex:0,
-            pageIndex:1,
-            list:[]
         }
     },
     components:{
@@ -37,12 +32,9 @@ export default {
         let info = await wx.getSystemInfoSync();
         this.winWidth = info.windowWidth;
         this.winHeight = info.windowHeight;
-        if(!this.menuStyle){
-            this.menuStyle =`width:${this.winWidth / this.navList.length}px`
+        if(!this.menuWidth){
+            this.menuWidth =this.winWidth / this.navList.length;
         }
-        
-        this._getTopics();
-        
     },
     computed: {
         contentHeight() {
@@ -50,21 +42,19 @@ export default {
         }
     },
     methods:{
-        _getTopics(){
-            request('topics',{
-                page:this.pageIndex,
-                limit:pageNumber
-            }).then( res=>{
-                this.list = this._normalizeTopics(res);
-            })
+        swiperChange(e){
+            this.currentIndex = e.target.current;
         },
-        _normalizeTopics(json){
-            return json.map(item=>{
-                return Object.assign(item, {
-                    createTime: formatTime(item.create_at),
-                    lastReplyTime: getTimeInfo(item.last_reply_at),
-                })
-            })
+        select(index){
+             this.currentIndex = index;
+        },
+        goTo(id){
+            console.log(id)
+            const url = '../article/main?id='+id
+            wx.navigateTo({ url })
+            // wx.navigateTo({
+            //     url:'../article/main'
+            // })
         }
     }
 };
@@ -93,20 +83,24 @@ export default {
         white-space: nowrap;
         position: relative;
         .swiper-tab-item{
-            font-size: 18px;
+            font-size: 14px;
             height: 42px;
             display: inline-block;
             color: #777777;
             position: relative;
-            &.active:after{
-                content:'';
-                height: 2px;
-                width: 100%;
-                position:absolute;
-                left: 0;
-                bottom: 0;
-                background: $brand;
+            &.active{
+                color: $brand;
+                font-size: 16px;
             }
+            // &.active:after{
+            //     content:'';
+            //     height: 2px;
+            //     width: 100%;
+            //     position:absolute;
+            //     left: 0;
+            //     bottom: 0;
+            //     background: $brand;
+            // }
         }
     }
 </style>

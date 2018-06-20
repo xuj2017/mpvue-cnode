@@ -1,7 +1,10 @@
 <template>
     <div class="list-wrap">
-        <scroll-view scroll-y="true" style="height:100%;">
-            <div class="li" v-for="(item,index) in list" :key="index">
+        <div class="header" :hidden="hideHeader">
+            刷新中....
+        </div>
+        <scroll-view scroll-y="true" style="height:100%;" @scrolltoupper="refresh" @scrolltolower="loadMore">
+            <div class="li" v-for="(item,index) in list" :key="index" @tap="goTo(item.id)">
                 <div class="title">
                     <type-mark :item="item"></type-mark>
                     <p>{{item.title}}</p>
@@ -28,32 +31,69 @@
 </template>
 
 <script>
+import {navList,formatTime,getTimeInfo} from '@/common/js/common';
+import {request} from '@/common/js/request.js';
 import TypeMark from './type-mark';
-
-
+const pageNumber = 20;
 export default {
     data(){
         return{
-           message:"qweqweqweqwe"
+           hideHeader:true,
+           pageIndex:1,
+           list:[]
         }
     },
     props:{
-        list:{
-            type:Array,
-            default:[]
-        }
+       type:{
+           type:Object,
+           default:{}
+       }
     },
     components:{
         TypeMark
     },
     methods:{
-       
+        _getTopics(){
+            request('topics',{
+                page:this.pageIndex,
+                tab:this.type.type,
+                limit:pageNumber
+            }).then( res=>{
+                if(this.pageIndex === 1){
+                    this.list = this._normalizeTopics(res);
+                }else{
+                    this.list = this.list.concat(this._normalizeTopics(res));
+                }
+                this.hideHeader = true;
+            })
+        },
+        _normalizeTopics(json){
+            return json.map(item=>{
+                return Object.assign(item, {
+                    createTime: formatTime(item.create_at),
+                    lastReplyTime: getTimeInfo(item.last_reply_at),
+                })
+            })
+        },
+        refresh(val){
+            this.hideHeader = false;
+            this.pageIndex = 1;
+            this._getTopics()
+        },
+        loadMore(val){
+            this.hideBottom = false;
+            this.pageIndex++;
+            this._getTopics()
+        },
+        goTo(id){
+            this.$emit('goTo',id)
+        }
     },
     computed:{
         
     },
     created(){
-       console.log(this.list)
+       this._getTopics();
     }
 };
 </script>
@@ -62,6 +102,13 @@ export default {
     @import "@/common/style/mixin.scss";
     .list-wrap{
         height:100%;
+        .header,.bottom{
+            text-align: center;
+            font-size: 12px;
+            height: 20px;
+            line-height: 20px;
+            color: $grey;
+        }
         .li{
             width: 100%;
             padding: 10px;
