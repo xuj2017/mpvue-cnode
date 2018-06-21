@@ -49,12 +49,13 @@ export default {
              this.currentIndex = index;
         },
         goTo(id){
-            console.log(id)
+            wx.showNavigationBarLoading();
+            wx.showLoading({
+                mask:true,
+                title:'加载中'
+            })
             const url = '../article/main?id='+id
             wx.navigateTo({ url })
-            // wx.navigateTo({
-            //     url:'../article/main'
-            // })
         }
     }
 };

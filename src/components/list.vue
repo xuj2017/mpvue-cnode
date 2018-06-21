@@ -4,7 +4,7 @@
             刷新中....
         </div>
         <scroll-view scroll-y="true" style="height:100%;" @scrolltoupper="refresh" @scrolltolower="loadMore">
-            <div class="li" v-for="(item,index) in list" :key="index" @tap="goTo(item.id)">
+            <div class="li" v-for="(item,index) in list" :key="index" @click="goTo(item.id)">
                 <div class="title">
                     <type-mark :item="item"></type-mark>
                     <p>{{item.title}}</p>

@@ -3479,6 +3479,10 @@ mpvue-webpack-target@^1.0.0:
   dependencies:
     webpack "^3.4.0"
 
+mpvue-wxparse@^0.6.5:
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/mpvue-wxparse/-/mpvue-wxparse-0.6.5.tgz#3fb1e12338d0e85dac0b97a3aa33ca8651a48aa8"
+
 mpvue@^1.0.11:
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/mpvue/-/mpvue-1.0.13.tgz#9d128d91f2a89bdd7507493fbeef409fe302fbd7"

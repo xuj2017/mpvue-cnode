@@ -12,6 +12,7 @@ export default {
 </script>
 
 <style>
+@import url('../node_modules/mpvue-wxparse/src/wxParse.css');
 .container {
   height: 100%;
   display: flex;
