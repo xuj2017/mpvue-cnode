@@ -13,15 +13,14 @@ export default {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
     pages: ['pages/message/main', '^pages/index/main','pages/me/main'],
     window: {
-      backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'vNode',
-      navigationBarTextStyle: 'black'
-      // enablePullDownRefresh: true
+      backgroundTextStyle: "dark",
+      navigationBarBackgroundColor: "#444",
+      navigationBarTitleText: "vNode 社区",
+      navigationBarTextStyle: "#fff"
     },
     tabBar:{
       color:'#7a7e83',
-      selectedColor:'#80bd01',
+      selectedColor:'#444',
       backgroundColor:'#fff',
       borderStyle:'black',
       position:'bottom',

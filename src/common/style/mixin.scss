@@ -8,3 +8,58 @@ $grey:#e3e3e3;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+@mixin border-1px{
+    position: relative;
+    &:after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 200%;
+        transform: scale(.5);
+        transform-origin: 0 0;
+        pointer-events: none;
+        box-sizing: border-box;
+        border: 0 solid #e5e5e5;
+        border-top-width: 1px;
+        border-bottom-width: 1px
+    }
+}
+
+@mixin border-top-1px{
+    position: relative;
+    &:after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 200%;
+        transform: scale(.5);
+        transform-origin: 0 0;
+        pointer-events: none;
+        box-sizing: border-box;
+        border: 0 solid #e5e5e5;
+        border-top-width: 1px;
+    }
+}
+
+@mixin border-bottom-1px{
+    position: relative;
+    &:after{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        height: 200%;
+        transform: scale(.5);
+        transform-origin: 0 0;
+        pointer-events: none;
+        box-sizing: border-box;
+        border: 0 solid #e5e5e5;
+        border-bottom-width: 1px
+    }
+}

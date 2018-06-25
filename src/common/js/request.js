@@ -25,8 +25,11 @@ export  async function request(url = '', data = {}, method = 'GET',loading = tru
                     wx.hideLoading();
                     wx.hideNavigationBarLoading();
                 }
-
-                resolve(json.data.data)
+                if(method === 'POST'){
+                    resolve(json)
+                }else{
+                    resolve(json.data.data)
+                }
             },
             fail(e){
                 reject(e);
