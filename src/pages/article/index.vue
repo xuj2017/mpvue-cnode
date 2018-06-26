@@ -58,7 +58,7 @@
 
 import {request} from '@/common/js/request.js';
 import {getTimeInfo} from '@/common/js/common';
-import TypeMark from '@/components/type-mark.vue';
+import TypeMark from '@/components/type-mark/type-mark';
 import WxParse from 'mpvue-wxparse';
 
 export default {
@@ -88,12 +88,17 @@ export default {
     },
   },
   async onLoad(option){
+      wx.showLoading({
+        mask:true,
+        title:'加载中'
+    })
+      this.article = null;
       this.id = option.id;
       let res = await request('topic/'+ this.id);
       if(!!res){
         this.article =this._normalizeComment(res) 
       }
-      console.log(this.article)
+       wx.hideLoading();
   }
 }
 </script>

@@ -33,7 +33,7 @@
 <script>
 import {navList,formatTime,getTimeInfo} from '@/common/js/common';
 import {request} from '@/common/js/request.js';
-import TypeMark from './type-mark';
+import TypeMark from './type-mark/type-mark';
 const pageNumber = 20;
 export default {
     data(){

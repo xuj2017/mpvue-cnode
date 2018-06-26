@@ -15,22 +15,22 @@
             </div>
 
             <ul class="type-list">
-                <li class="item">
+                <li class="item" @click="goToParticipate">
                     <div class="item-left">最近参与的话题</div>
                     <div class="item-right"></div>
                 </li>
-                <li class="item">
+                <li class="item" @click="goToCreate">
                     <div class="item-left">最近创建的话题</div>
                     <div class="item-right"></div>
                 </li>
-                <li class="item">
+                <li class="item" @clicl="goToStar">
                     <div class="item-left">收藏的话题</div>
                     <div class="item-right"></div>
                 </li>
             </ul>
 
             <ul class="type-list">
-                <li class="item">
+                <li class="item" @click="logOff">
                     <div class="item-center">退出登录</div>
                 </li>
             </ul>
@@ -45,6 +45,7 @@
 <script>
 import {request} from '@/common/js/request.js';
 import {getTimeInfo} from '@/common/js/common';
+import {mapMutations} from 'vuex';
 export default {
   data() {
     return {
@@ -89,11 +90,45 @@ export default {
                 key: 'token',
             })
         })
-    }
+    },
+    logOff(){
+        let vue = this;
+        wx.showModal({
+            content:'是否退出登录？',
+            success(){
+                vue.user = null
+                vue.time = '-'
+                wx.removeStorage({
+                    key: 'token',
+                    complete: function() {
+                        wx.reLaunch({
+                            url: '../index/main'
+                        })
+                    },
+                })
+            }
+        })
+    },
+    goToParticipate(){
+        wx.navigateTo({
+            url: '../participate/main'
+        })
+    },
+    goToCreate(){
+
+    },
+    GotoStar(){
+
+    },
+    ...mapMutations({
+        setParticipate:'SET_PARTICIPATE'
+    })
   },
-  async onLoad(){
+  created(){
       let accesstoken = wx.getStorageSync('token');
-      this.getData(accesstoken)
+      if(!!accesstoken){
+          this.getData(accesstoken)
+      }
   },
   watch:{
         async logined(data){
@@ -104,6 +139,8 @@ export default {
           if(!!json){
               this.time =getTimeInfo(json.create_at);
               this.user = json;
+              console.log(json)
+              this.setParticipate(json.recent_replies)
           }
       }
   }
@@ -159,7 +196,7 @@ export default {
         }
         .more{
             line-height: 24px;
-            color: $grey;
+            color: #778087;
             font-size: 14px;
             display: flex;
             justify-content: space-between;
