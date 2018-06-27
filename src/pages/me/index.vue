@@ -39,13 +39,14 @@
         <div class="login-wrap" v-if="!user">
             <button type="primary" @click="login">扫码登录</button>
         </div>
+        
     </div>
 </template>
 
 <script>
 import {request} from '@/common/js/request.js';
 import {getTimeInfo} from '@/common/js/common';
-import {mapMutations} from 'vuex';
+import { mapMutations } from 'vuex';
 export default {
   data() {
     return {
@@ -139,7 +140,6 @@ export default {
           if(!!json){
               this.time =getTimeInfo(json.create_at);
               this.user = json;
-              console.log(json)
               this.setParticipate(json.recent_replies)
           }
       }

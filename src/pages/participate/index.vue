@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    参与的话题
-    <!-- <topic-v :list="list"></topic-v> -->
+    <topic-v :list="participate"></topic-v>
   </div>
 </template>
 
@@ -23,6 +22,10 @@ export default {
     ...mapGetters([
       'participate'
     ])
+  },
+  mounted(){
+    console.log(123)
+    console.log(this.participate)
   },
   watch:{
     participate(newVal){
