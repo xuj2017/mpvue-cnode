@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <topic-v :list="participate"></topic-v>
+    <topic-v :list="create"></topic-v>
   </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
   },
   computed:{
     ...mapGetters([
-      'participate'
+      'create'
     ])
   }
 }

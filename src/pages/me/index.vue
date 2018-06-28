@@ -15,15 +15,15 @@
             </div>
 
             <ul class="type-list">
-                <li class="item" @click="goToParticipate">
+                <li class="item" @click="toPage('../participate/main')" >
                     <div class="item-left">最近参与的话题</div>
                     <div class="item-right"></div>
                 </li>
-                <li class="item" @click="goToCreate">
+                <li class="item" @click="toPage('../create/main')">
                     <div class="item-left">最近创建的话题</div>
                     <div class="item-right"></div>
                 </li>
-                <li class="item" @clicl="goToStar">
+                <li class="item"  @click="toPage('../star/main')">
                     <div class="item-left">收藏的话题</div>
                     <div class="item-right"></div>
                 </li>
@@ -110,23 +110,27 @@ export default {
             }
         })
     },
-    goToParticipate(){
+    toPage(url){
         wx.navigateTo({
-            url: '../participate/main'
+            url: url
         })
     },
-    goToCreate(){
-
-    },
-    GotoStar(){
-
-    },
     ...mapMutations({
-        setParticipate:'SET_PARTICIPATE'
-    })
+        setParticipate:'SET_PARTICIPATE',
+        setCreate:'SET_CREATE',
+        setLoginname:'SET_LOFINNAME'
+    }),
+    _normalizeTopics(json){
+            return json.map(item=>{
+                return Object.assign(item, {
+                    lastReplyTime: getTimeInfo(item.last_reply_at),
+                })
+            })
+        },
   },
   created(){
       let accesstoken = wx.getStorageSync('token');
+      console.log('accesstoken:'+accesstoken)
       if(!!accesstoken){
           this.getData(accesstoken)
       }
@@ -140,7 +144,10 @@ export default {
           if(!!json){
               this.time =getTimeInfo(json.create_at);
               this.user = json;
-              this.setParticipate(json.recent_replies)
+              console.log(json)
+              this.setParticipate(this._normalizeTopics(json.recent_replies))
+              this.setCreate(this._normalizeTopics(json.recent_topics))
+              this.setLoginname(json.loginname)
           }
       }
   }

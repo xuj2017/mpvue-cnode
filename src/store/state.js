@@ -1,5 +1,7 @@
 const state = {
-    participate:{}
+    participate:{},
+    create:{},
+    loginname:''
 }
 
 export default state;

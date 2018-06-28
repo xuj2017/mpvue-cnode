@@ -1,1 +1,5 @@
 export const SET_PARTICIPATE = 'SET_PARTICIPATE'
+
+export const SET_CREATE = 'SET_CREATE'
+
+export const SET_LOFINNAME = 'SET_LOFINNAME'

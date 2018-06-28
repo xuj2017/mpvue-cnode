@@ -49,7 +49,6 @@ export default {
              this.currentIndex = index;
         },
         goTo(id){
-            wx.showNavigationBarLoading();
             wx.showLoading({
                 mask:true,
                 title:'加载中'

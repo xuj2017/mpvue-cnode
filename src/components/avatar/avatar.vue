@@ -42,6 +42,9 @@ export default {
         height: 36px;
         border-radius: 3px;
         overflow: hidden;
+         flex-shrink: 0;
+         font-size: 0;
+         line-height: 0;
         img{
             width: 100%;
             height: 100%;
