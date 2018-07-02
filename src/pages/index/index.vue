@@ -5,7 +5,7 @@
         </scroll-view>
         <swiper :current="currentIndex" class="swiper-box" duration="300" :style="'height:'+contentHeight" @change="swiperChange">
             <swiper-item v-for="(item,index) in navList" :key="index">
-                <list-v :list="list" v-if="index === currentIndex" @refresh="refresh" @loadMore="loadMore" :hideHeader="hideHeader" :type="item" @goTo="goTo"></list-v>
+                <list-v  v-if="index === currentIndex" @refresh="refresh" @loadMore="loadMore" :hideHeader="hideHeader" :type="item" @goTo="goTo"></list-v>
             </swiper-item>
         </swiper>
     </div>

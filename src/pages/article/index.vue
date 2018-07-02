@@ -19,9 +19,9 @@
                            <span>发布于{{article.createTime}}</span>
                        </div>
                    </div>
-                   <div class="right-item" v-if="logined">
-                       <button class="like" v-if="article.is_collect">收藏</button>
-                       <button class="liked" v-else="article.is_collect">已收藏</button>
+                   <div class="right-item" v-if="accesstoken">
+                       <button  v-if="!article.is_collect" type="primary"  size="mini">收藏</button>
+                       <button  v-else  size="mini">已收藏</button>
                    </div>
                </div>
           </div>
@@ -35,7 +35,7 @@
               {{article.reply_count}}回复
           </div>
           <ul class="comment-list">
-              <li class="comment-item" v-for="(item,index) in article.replies" :key="index">
+              <li class="comment-item" v-for="(item,index) in article.replies" :key="index" :id="item.id">
                   <div class="item-head">
                       <div class="avater"><img :src="item.author.avatar_url" ></div>
                       <div class="info">
@@ -66,11 +66,14 @@ export default {
     return {
         id:null,
         article:null,
-        logined:false
+        accesstoken:''
     }
   },
   components: {
       TypeMark,WxParse
+  },
+  mounted() {
+      this.accesstoken = wx.getStorageSync("token");
   },
   methods:{
     _normalizeComment(json){
@@ -87,25 +90,29 @@ export default {
         return json;
     },
   },
-  async onLoad(option){
-      wx.showLoading({
+  onShow(){
+    wx.showLoading({
         mask:true,
         title:'加载中'
     })
+  },
+  async onLoad(option){
       this.article = null;
       this.id = option.id;
-      let res = await request('topic/'+ this.id);
+      let res = await request('topic/'+ this.id,{},'GET',false);
       if(!!res){
         this.article =this._normalizeComment(res) 
+        console.log(this.article)
       }
-       wx.hideLoading();
+      this.$nextTick(()=>{
+         wx.hideLoading();
+    })
   }
 }
 </script>
 
 <style lang="scss" scoped>
     @import "@/common/style/mixin.scss";
-    // @import "/wxParse/wxParse.wxss";
     .article-wrap{
         font-size: 14px;
         .head-box{

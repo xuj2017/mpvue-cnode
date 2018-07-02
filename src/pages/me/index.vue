@@ -130,7 +130,6 @@ export default {
   },
   created(){
       let accesstoken = wx.getStorageSync('token');
-      console.log('accesstoken:'+accesstoken)
       if(!!accesstoken){
           this.getData(accesstoken)
       }
@@ -144,7 +143,6 @@ export default {
           if(!!json){
               this.time =getTimeInfo(json.create_at);
               this.user = json;
-              console.log(json)
               this.setParticipate(this._normalizeTopics(json.recent_replies))
               this.setCreate(this._normalizeTopics(json.recent_topics))
               this.setLoginname(json.loginname)
