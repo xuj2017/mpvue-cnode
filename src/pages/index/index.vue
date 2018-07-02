@@ -13,8 +13,7 @@
 
 <script>
 import {navList} from '@/common/js/common';
-import List from '@/components/list.vue';
-
+import List from '@/components/list/list.vue';
 export default {
     data(){
         return{
