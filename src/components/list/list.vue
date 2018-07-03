@@ -10,9 +10,7 @@
                     <p>{{item.title}}</p>
                 </div>
                 <div class="content">
-                    <div class="avater">
-                        <img :src="item.author.avatar_url" alt="用户头像">
-                    </div>
+                    <avatar :user="item.author"></avatar>
                     <div class="info">
                         <div class="left-item">
                             <div class="name">{{item.author.loginname}}</div>
@@ -34,6 +32,8 @@
 import { navList, formatTime, getTimeInfo } from "@/common/js/common";
 import { request } from "@/common/js/request.js";
 import TypeMark from "../type-mark/type-mark";
+import Avatar from "../avatar/avatar";
+
 const pageNumber = 20;
 export default {
   data() {
@@ -50,7 +50,8 @@ export default {
     }
   },
   components: {
-    TypeMark
+    TypeMark,
+    Avatar
   },
   methods: {
     _getTopics() {
@@ -73,9 +74,9 @@ export default {
         } else {
           this.list = this.list.concat(this._normalizeTopics(res));
         }
-        this.$nextTick(() => {
-          wx.hideLoading();
-        });
+        setTimeout(()=>{
+           wx.hideLoading();
+        },500)
         this.hideHeader = true;
       });
     },
@@ -142,16 +143,6 @@ export default {
       position: relative;
       font-size: 13px;
       margin-top: 8px;
-      .avater {
-        width: 36px;
-        height: 36px;
-        border-radius: 5px;
-        overflow: hidden;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
       .info {
         flex: 1;
         margin-left: 10px;

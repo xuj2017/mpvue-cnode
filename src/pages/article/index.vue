@@ -5,9 +5,7 @@
               {{article.title}}
           </h3>
           <div class="head-info">
-               <div class="avater">
-                 <img :src="article.author.avatar_url">
-               </div>
+               <avatar :user="article.author"></avatar>
                <div class="info">
                    <div class="left-item">
                        <div class="detail">
@@ -37,13 +35,15 @@
           <ul class="comment-list">
               <li class="comment-item" v-for="(item,index) in article.replies" :key="index" :id="item.id">
                   <div class="item-head">
-                      <div class="avater"><img :src="item.author.avatar_url" ></div>
+                       <avatar :user="item.author" :size="30"></avatar>
                       <div class="info">
                         <span class="name">{{item.author.loginname}}</span>
                         <span class="lou">{{index+1}}楼</span> • 
                         <span class="time">{{item.createTime}}</span>
                     </div>
-                    <div class="zan-wrap" v-if="logined"></div>
+                    <div class="zan-wrap" v-if="accesstoken" @click="dianzan(item.id,item.is_uped,index)">
+                      <i class="iconfont icon-dianzan" :class="{'parised':item.is_uped}"></i>
+                    </div>
                   </div>
                   <div class="comment-content">
                       <wxParse :content="item.content"></wxParse>
@@ -58,6 +58,8 @@
 import { request } from "@/common/js/request.js";
 import { getTimeInfo } from "@/common/js/common";
 import TypeMark from "@/components/type-mark/type-mark";
+import Avatar from "@/components/avatar/avatar"
+
 import WxParse from "mpvue-wxparse";
 
 export default {
@@ -70,7 +72,8 @@ export default {
   },
   components: {
     TypeMark,
-    WxParse
+    WxParse,
+    Avatar
   },
   methods: {
     _normalizeComment(json) {
@@ -107,6 +110,13 @@ export default {
           this.article.is_collect = false;
         }
       });
+    },
+    dianzan(id, type, index) {
+      request(`reply/${id}/ups`,{accesstoken: this.accesstoken},'POST',false).then(res =>{
+        if(res.data.success === true){
+          this.article.replies[index].is_uped = !!type ? false : true;
+        }
+      })
     }
   },
   onShow() {
@@ -138,6 +148,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/common/style/mixin.scss";
+@import "../../../static/css/iconfont.css";
 .article-wrap {
   font-size: 14px;
   .head-box {
@@ -156,16 +167,6 @@ export default {
   .head-info {
     display: flex;
     align-items: center;
-    .avater {
-      width: 36px;
-      height: 36px;
-      border-radius: 5px;
-      overflow: hidden;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
     .info {
       flex: 1;
       display: flex;
@@ -207,16 +208,6 @@ export default {
         display: flex;
         align-items: center;
       }
-      .avater {
-        width: 30px;
-        height: 30px;
-        border-radius: 3px;
-        vertical-align: center;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
       .info {
         flex: 1;
         .name {
@@ -226,6 +217,13 @@ export default {
         .lou,
         .time {
           color: #08c;
+        }
+      }
+      .zan-wrap {
+        width: 40px;
+        text-align: right;
+        .parised {
+          color: $brand;
         }
       }
     }

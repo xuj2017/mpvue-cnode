@@ -41,12 +41,10 @@ import Avatar from "@/components/avatar/avatar";
 import WxParse from "mpvue-wxparse";
 const navList = [
   {
-    name: "已读数据",
-    data: "hasReadMessage"
+    name: "已读消息",
   },
   {
-    name: "未读数据",
-    data: "hasNotReadMessage"
+    name: "未读消息",
   }
 ];
 export default {
@@ -65,9 +63,6 @@ export default {
     WxParse
   },
   methods: {
-    async _getMessage(token) {
-      let res = await request("messages?accesstoken=" + token);
-    },
     swiperChange(e) {
       this.currentIndex = e.target.current;
     },
@@ -113,13 +108,12 @@ export default {
   async onLoad() {
     this.accesstoken = wx.getStorageSync("token");
     if (this.accesstoken !== "") {
-      this._getMessage(this.accesstoken);
+      request("messages", { accesstoken: this.accesstoken }).then(res => {
+        this.hasReadMessage =this._normalizeMessage(res.has_read_messages);
+        this.hasNotReadMessage =this._normalizeMessage(res.hasnot_read_messages);
+        this.messageList.push(this.hasReadMessage,this.hasNotReadMessage)
+      });
     }
-    request("messages", { accesstoken: this.accesstoken }).then(res => {
-      this.hasReadMessage =this._normalizeMessage(res.has_read_messages);
-      this.hasNotReadMessage =this._normalizeMessage(res.hasnot_read_messages);
-      this.messageList.push(this.hasReadMessage,this.hasNotReadMessage)
-    });
   }
 };
 </script>
