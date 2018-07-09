@@ -12,7 +12,7 @@
               </div>
           </div>
       </scroll-view>
-      <div v-if="!list.length">暂无数据</div>
+      <no-data v-else></no-data>
   </div>
     
 </template>
@@ -20,6 +20,7 @@
 <script>
 import AvatarV from "../avatar/avatar";
 import { getTimeInfo } from "@/common/js/common";
+import NoData from '@/components/no-data/no-data';
 export default {
   props: {
     list: {
@@ -28,7 +29,8 @@ export default {
     }
   },
   components: {
-    AvatarV
+    AvatarV,
+    NoData
   },
   methods: {
     goTo(id) {

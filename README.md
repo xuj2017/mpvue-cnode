@@ -28,3 +28,6 @@
 4. 该小程序所用到的所有接口均来源于 [CNode社区](https://cnodejs.org/api)
 
 5. 小程序在开发过程中部分样式及功能借鉴了[mpvue-code](https://github.com/jaxQin/mpvue-cnode)项目，感谢！！
+
+
+`如果方便的话，希望您顺手点个star...`

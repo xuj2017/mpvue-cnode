@@ -5,7 +5,7 @@
         </scroll-view>
         <swiper :current="currentIndex" class="swiper-box" duration="300" :style="'height:'+contentHeight" @change="swiperChange">
             <swiper-item v-for="(item,index) in navList" :key="index">
-                <scroll-view scroll-y style="height:100%" >
+                <scroll-view scroll-y style="height:100%" v-if="messageList[index].length">
                     <ul class="message-list" >
                         <li class="item" v-for="(v,i) in messageList[index]" :key="i" @click="goTo(v.topic.id,v.has_read,v.id)">
                             <div class="user">
@@ -29,6 +29,7 @@
                         </li>
                     </ul>
                 </scroll-view>
+               <no-data v-else></no-data>
             </swiper-item>
         </swiper>
     </div>
@@ -39,6 +40,7 @@ import { getTimeInfo } from "@/common/js/common";
 import { request } from "@/common/js/request.js";
 import Avatar from "@/components/avatar/avatar";
 import WxParse from "mpvue-wxparse";
+import NoData from '@/components/no-data/no-data';
 const navList = [
   {
     name: "已读消息",
@@ -60,7 +62,8 @@ export default {
   },
   components: {
     Avatar,
-    WxParse
+    WxParse,
+    NoData
   },
   methods: {
     swiperChange(e) {

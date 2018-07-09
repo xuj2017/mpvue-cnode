@@ -83,3 +83,9 @@ export function formatTime(str){
     str = new Date(str);
     return str.format('yyyy-MM-dd hh:mm:ss')
 }
+
+//获取设备信息
+export function getSystemInfo(){
+    let info =  wx.getSystemInfoSync();
+    return info;
+}

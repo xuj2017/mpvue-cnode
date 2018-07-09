@@ -1,5 +1,5 @@
 <template>
-    <div class="avatar" :style="style">
+    <div class="avatar" :style="style" @click.stop="goUser(user.loginname)">
         <img :src="user.avatar_url" alt="">
     </div>
 </template>
@@ -14,6 +14,13 @@ export default {
         size:{
             type:Number,
             defaule:36
+        }
+    },
+    methods:{
+        goUser(loginname){
+            wx.navigateTo({
+                url:`/pages/user/main?id=${loginname}`
+            })
         }
     },
     computed:{

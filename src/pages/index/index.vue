@@ -91,15 +91,6 @@ export default {
                 color: $brand;
                 font-size: 16px;
             }
-            // &.active:after{
-            //     content:'';
-            //     height: 2px;
-            //     width: 100%;
-            //     position:absolute;
-            //     left: 0;
-            //     bottom: 0;
-            //     background: $brand;
-            // }
         }
     }
 </style>
