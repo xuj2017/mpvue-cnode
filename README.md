@@ -4,7 +4,7 @@
 
 **预览**
 
-![image](./assets/preview.png)
+![image](./assets/one.jpg) ![image](./assets/two.jpg) ![image](./assets/three.jpg) ![image](./assets/four.jpg) ![image](./assets/five.jpg)
 
 ## 下载启动步骤
 

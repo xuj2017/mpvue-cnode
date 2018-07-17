@@ -3,7 +3,7 @@
         <scroll-view class="swiper-tab" scroll-x="true">
             <view v-for="(item,index) in navList" :key="index"  @tap="select(index)" :class="{'active':currentIndex ===index}"  class="swiper-tab-item">{{item.name}}</view>
         </scroll-view>
-        <swiper :current="currentIndex" class="swiper-box" duration="300" :style="'height:'+contentHeight" @change="swiperChange">
+        <swiper :current="currentIndex" class="swiper-box" duration="300"  @change="swiperChange">
             <swiper-item v-for="(item,index) in navList" :key="index">
                 <scroll-view scroll-y style="height:100%" v-if="messageList[index].length">
                     <ul class="message-list" >
@@ -15,9 +15,9 @@
                                         <div class="name">{{v.author.loginname}}</div>
                                         <div class="time">{{v.createTime}}</div>
                                     </div>
-                                    <div class="bottom">
+                                    <!-- <div class="bottom">
                                         在回复中@了您
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="content">
@@ -56,8 +56,8 @@ export default {
       navList: navList,
       currentIndex: 0,
       messageList: [],
-      hasReadMessage: null,
-      hasNotReadMessage: null
+      hasReadMessage: [],
+      hasNotReadMessage: []
     };
   },
   components: {
@@ -76,7 +76,6 @@ export default {
       if(!has_read){
         await request('message/mark_one/'+msg_id,{accesstoken:this.accesstoken},'POST')
       }
-
       const url = '../article/main?id='+id
       wx.navigateTo({ url })
     },
@@ -88,44 +87,44 @@ export default {
       });
     }
   },
-  computed: {
-    contentHeight() {
-      let info = wx.getSystemInfoSync();
-      let winHeight = info.windowHeight;
-      return winHeight - 42 + "px";
-    }
-  },
-  async onShow() {
+  async onLoad() {
     wx.showLoading({
       mask: true,
       title: "加载中"
     });
-    if (!this.accesstoken) {
-      wx.reLaunch({
-        url: "../me/main"
-      });
-    } else {
-      wx.hideLoading();
-    }
-  },
-  async onLoad() {
     this.accesstoken = wx.getStorageSync("token");
+     this.messageList.push(this.hasReadMessage,this.hasNotReadMessage)
     if (this.accesstoken !== "") {
-      request("messages", { accesstoken: this.accesstoken }).then(res => {
+      request("messages", { accesstoken: this.accesstoken },'GET',false).then(res => {
         this.hasReadMessage =this._normalizeMessage(res.has_read_messages);
         this.hasNotReadMessage =this._normalizeMessage(res.hasnot_read_messages);
-        this.messageList.push(this.hasReadMessage,this.hasNotReadMessage)
-      });
+        this.messageList=[this.hasReadMessage,this.hasNotReadMessage]
+        this.$nextTick(()=>{
+          wx.hideLoading();
+        })
+      }).catch((err)=>{
+         wx.hideLoading();
+      })
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 @import "@/common/style/mixin.scss";
+
+
+page{
+  height: 100%;
+}
 .message-wrap {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   .swiper-box {
+    flex: 1;
+    height: auto;
     padding-top: 1px;
     background: $grey;
   }

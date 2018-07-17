@@ -97,6 +97,11 @@ export default {
       ).then(res => {
         if (res.data.success === true) {
           this.article.is_collect = true;
+          wx.showToast({
+              title: '已收藏',
+              icon: 'success',
+              duration: 1000
+            })
         }
       });
     },
@@ -108,6 +113,11 @@ export default {
       ).then(res => {
         if (res.data.success === true) {
           this.article.is_collect = false;
+           wx.showToast({
+              title: '已取消收藏',
+              icon: 'success',
+              duration: 1000
+            })
         }
       });
     },
@@ -115,17 +125,22 @@ export default {
       request(`reply/${id}/ups`,{accesstoken: this.accesstoken},'POST',false).then(res =>{
         if(res.data.success === true){
           this.article.replies[index].is_uped = !!type ? false : true;
+          if(!type){
+            wx.showToast({
+              title: '已赞',
+              icon: 'success',
+              duration: 500
+            })
+          }
         }
       })
     }
   },
-  onShow() {
+  async onLoad(option) {
     wx.showLoading({
       mask: true,
       title: "加载中"
     });
-  },
-  async onLoad(option) {
     this.article = null;
     this.id = option.id;
     this.accesstoken = wx.getStorageSync("token");
@@ -137,7 +152,6 @@ export default {
     );
     if (!!res) {
       this.article = this._normalizeComment(res);
-      console.log(this.article);
     }
     this.$nextTick(() => {
       wx.hideLoading();
@@ -148,7 +162,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/common/style/mixin.scss";
-@import "../../../static/css/iconfont.css";
+@import "@/common/style/iconfont.scss";
 .article-wrap {
   font-size: 14px;
   .head-box {
@@ -160,7 +174,6 @@ export default {
       margin: 8px 0;
       display: inline-block;
       vertical-align: bottom;
-      width: 75%;
       line-height: 130%;
     }
   }

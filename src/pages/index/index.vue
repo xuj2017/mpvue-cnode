@@ -55,6 +55,14 @@ export default {
             const url = '../article/main?id='+id
             wx.navigateTo({ url })
         }
+    },
+    async onLoad(){
+        wx.authorize({
+            scope:'scope.camera',
+            success(){
+                // console.log('success')
+            }
+        })
     }
 };
 </script>

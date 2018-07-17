@@ -32,12 +32,14 @@ export default {
         iconPath:'static/images/index.png',
         selectedIconPath:'static/images/index-active.png',
         pagePath:'pages/index/main'
-      },{
-        text:'消息',
-        iconPath:'static/images/message.png',
-        selectedIconPath:'static/images/message-active.png',
-        pagePath:'pages/message/main'
-      },{
+      },
+      // {
+      //   text:'消息',
+      //   iconPath:'static/images/message.png',
+      //   selectedIconPath:'static/images/message-active.png',
+      //   pagePath:'pages/message/main'
+      // },
+      {
         text:'我的',
         iconPath:'static/images/me.png',
         selectedIconPath:'static/images/me-active.png',

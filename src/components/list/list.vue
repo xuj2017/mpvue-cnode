@@ -1,8 +1,5 @@
 <template>
     <div class="list-wrap">
-        <div class="header" :hidden="hideHeader">
-            刷新中....
-        </div>
         <scroll-view scroll-y="true" style="height:100%;" @scrolltoupper="refresh" @scrolltolower="loadMore">
             <div class="li" v-for="(item,index) in list" :key="index" @click="goTo(item.id)">
                 <div class="title">
@@ -38,7 +35,6 @@ const pageNumber = 20;
 export default {
   data() {
     return {
-      hideHeader: true,
       pageIndex: 1,
       list: []
     };
@@ -77,7 +73,6 @@ export default {
         setTimeout(()=>{
            wx.hideLoading();
         },500)
-        this.hideHeader = true;
       });
     },
     _normalizeTopics(json) {
@@ -89,7 +84,6 @@ export default {
       });
     },
     refresh(val) {
-      this.hideHeader = false;
       this.pageIndex = 1;
       this._getTopics();
     },

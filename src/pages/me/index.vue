@@ -27,6 +27,10 @@
                     <div class="item-left">收藏的话题</div>
                     <div class="item-right"></div>
                 </li>
+                <li class="item" @click="toPage('../message/main')">
+                     <div class="item-left">消息</div>
+                     <div class="item-right"></div>
+                </li>
             </ul>
 
             <ul class="type-list">
