@@ -1,6 +1,6 @@
-# vnode
+# mpvue-cnode
 
-> vnode是一款基于mpvue开发的CNode社区小程序，该小程序目的只为学习mpvue开发，不做任何商业用途
+> mpvue-cnode是一款基于mpvue开发的CNode社区小程序，该小程序目的只为学习mpvue开发，不做任何商业用途
 
 **预览**
 
@@ -30,4 +30,4 @@
 5. 小程序在开发过程中部分样式及功能借鉴了[mpvue-code](https://github.com/jaxQin/mpvue-cnode)项目，感谢！！
 
 
-`如果方便的话，希望您顺手点个star...`
+如果方便的话，希望您顺手点个star...
